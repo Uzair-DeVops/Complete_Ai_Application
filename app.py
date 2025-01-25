@@ -27,7 +27,9 @@ from pathlib import Path
 # Load environment variables
 load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "service.json"
+
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+genai.configure(api_key="GOOGLE_API_KEY")
 
 # Initialize LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", api_key=GOOGLE_API_KEY)
@@ -52,7 +54,7 @@ def get_available_tools():
 # Initialize Agent for Tools
 tools = get_available_tools()
 tool_agent = initialize_agent(tools, llm, agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION)
-
+@st.cache_resource
 def initialize_agent():
     return Agent(
         name="Video AI Summarizer",
@@ -181,7 +183,7 @@ elif file_type == "Video":
                             try:
                                 with st.spinner("Processing video and gathering insights..."):
                                     # Process the video for analysis
-                                    processed_video = upload_file(video_path)
+                                    processed_video = upload_file(video_path,api_key=GOOGLE_API_KEY)
                                     while processed_video.state.name == "PROCESSING":
                                         time.sleep(1)
                                         processed_video = get_file(processed_video.name)
