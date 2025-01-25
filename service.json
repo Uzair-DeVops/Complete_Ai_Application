@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "practise-colab",
+    "private_key_id": "eb5db33ca98f8e812df72e384e4d188468f9b637",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDiq2jv+bTsOGfc\nz4Upne+Mrp/oOcHlM8Goa7AWqFvxYAy2ZoX+GHwvVI2ROxOWdZAsIWmA1ewXUTVk\nvsjssq3I0eZ+cCecfFjDQQPg0K6twKdjTisLUCYQ0Sw+/XpRm3Aw68dhd8TgV9D4\nIhZSDSpIIor0lSUqO8BcvPUyFJo9DdQvPX4y1hB/HySbDxvUS9JGaj7clUXfRMdL\n+7/jeIXM6ShJg+eb3g5Gxdc0NiEYtD0plaIM2Cy9TcXWYafbvcabYJyNzUuhvnsa\nHOG2irsfSbkk/6MkkmrkzsjTQojWh+2OPiKRfoPYxS1mEneQ+/R1QUW0I3fSybA/\nCmz57q1fAgMBAAECggEAHUaXTJtbT0EvxPi2kbv40xpAw/0lumU3Z3nVKe//xAqs\nSaivOLTP4UsR58aSDpZLky+TkVTP4+kUtNjhWZTwViYqF32D2DXFPx64EgLR9NYT\nqINRkun8qKJjjRUvBbhGQsNJIqEV+AXPkyTP7jQOGHgBq3pR7QT/oNq07o1zqFvR\nKAsrGy+F2GUSsTwupnE6T+d9VGQTm4pjR7k8C8vCPkCSQLmQAqMhgFj1J0gkiGup\na3S+s4frmmRYLM5vRL/FglBdqSavbMwHORpNtg4Xrdj6rok2uOOFJatsOdA6EAtj\nnbWQ02rR5EEErGI9neAbLpkzB2q5TyxeVjZbj4KBwQKBgQDzJUDjAPx4UMBcx2Gj\noIt4pOCZZGuJuAAnaiBsrVZ9Ju0NuQEF9AK9WZfhuCIYp76f5bs2RPSl8XpVKW5I\nFh1jm+GlHV649cedgoVYlWPsSzhmZY28E76WtVpGF309ENyRCMYnLy2NHJlRSOFg\nVVaNcpswlxxhrXCNS7OhP/vPnwKBgQDupyt+tZa5YFnRY8dcoYpm/q4RcaX2Szpw\nECzHbEaJfMC0WJiDj4lKUZ73J+47zwcCaZPbawVhb3pDiCuzgw7vigRfmU+xCYaC\nOKAGVCI757DzMQteJfIOfW/i8o8eIDTFHfvE2s3Fc0Vfb69MfTVRCCv/tld/lFaQ\nw5AVsSVKQQKBgQCv1JPc1Ry+YR8KuQCJ1JKnlwv4wV7nA9HQrvVtwdgWvyyUTOJJ\njNDiX0TvbTny/HNkrDw7HZiR3FOr/D8NEDkGjHab8eZK+Sn2ZKnLipTtDuRlYDEj\n/l9IGzOCFoBxxZzLoT2ynnJhZnoVBxA8mtnxhhxmAhD7LfKDq2fmRx/xXwKBgBkJ\n+QpGSxYQAdxyN4yEdlzwA5tY7Sy2H996EvipZ40tRZqmYPoMqT7e6WrNCbXEttuN\n8DFpPRtH8u/67XrcGUkQlfzhvPa6JR6sij2fvifC21Hop2StXoQerQqGoHVss5yq\n1KuGuWgp+/FTanT//gQOc29U1kFQcvSlUAy2lU8BAoGAYS/20x44jVUgXKq2PEHo\n+5NHGHcc2QnQOpUNLi/6Qd+HjZz90VaTIBoynfr/eN90xT5F3TKO54MEmWZeyhNU\nlAHd9tYSDFmJP11Nj0Z/3GpI0ITBh9R6xhyg4DzcnSfJ4tpcEssrXSvBSTBvzdUp\nus87xmjsi+SURLQ1HsXJ0sw=\n-----END PRIVATE KEY-----\n",
+    "client_email": "my-generative-api-service-acco@practise-colab.iam.gserviceaccount.com",
+    "client_id": "104429953763240488916",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/my-generative-api-service-acco%40practise-colab.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
