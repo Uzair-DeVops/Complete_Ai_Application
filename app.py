@@ -183,7 +183,7 @@ elif file_type == "Video":
                             try:
                                 with st.spinner("Processing video and gathering insights..."):
                                     # Process the video for analysis
-                                    processed_video = upload_file(video_path,api_key=GOOGLE_API_KEY)
+                                    processed_video = upload_file(video_path)
                                     while processed_video.state.name == "PROCESSING":
                                         time.sleep(1)
                                         processed_video = get_file(processed_video.name)
