@@ -54,7 +54,7 @@ def get_available_tools():
 # Initialize Agent for Tools
 tools = get_available_tools()
 tool_agent = initialize_agent(tools, llm, agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION)
-@st.cache_resource
+
 def initialize_agent():
     return Agent(
         name="Video AI Summarizer",
