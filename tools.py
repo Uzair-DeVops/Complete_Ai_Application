@@ -427,3 +427,34 @@ def llm_fallback(query: str):
 
 
     return f"Tool used: llm_fallback\nllm_fallback tool is used to handle query: {query}\nResponse: {reply}"
+
+
+
+
+@tool(parse_docstring=True)
+def search_image(query: str):
+    """Searches for images based on the query keyword.
+
+    Args:
+        query (str): The search query to find images.
+
+    Returns:
+        str: Displays images related to the search query.
+    """
+    api_key = "YcKCA72Ez-w6bn0jC03opmr4UtdeXlRccoHpOs4WygU"
+    url = f"https://api.unsplash.com/search/photos?query={query}&client_id={api_key}"
+    response = requests.get(url)
+    data = response.json()
+    
+    if data['results']:
+        # Extract the image URLs from the response
+        image_urls = [image['urls']['small'] for image in data['results'][:5]]
+        
+        # Display images in the Streamlit app
+        for img_url in image_urls:
+            st.image(img_url, caption=f"Image related to {query}", use_container_width=True)
+        
+        return f"Tool used: search_image\n search_image tool is used to  Displayed images related to {query}."
+    else:
+        return f"Error: Could not find images for {query}.\nTool used: search_image"
+

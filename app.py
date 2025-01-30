@@ -12,6 +12,7 @@ import os
 import tempfile
 import time
 from pathlib import Path
+import requests
 
 import os
 import google.generativeai as genai
@@ -53,7 +54,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", api_key=GOOGLE_API_KE
 
 # Define Tools
 def get_available_tools():
-    from tools import llm_fallback, calculator, get_latest_news, get_movie_details, get_recipe, get_distance, get_stock_price, get_ip_address, get_disk_usage, get_time_in_timezone, get_weather
+    from tools import search_image, llm_fallback, calculator, get_latest_news, get_movie_details, get_recipe, get_distance, get_stock_price, get_ip_address, get_disk_usage, get_time_in_timezone, get_weather
     return [
         calculator,
         get_latest_news,
@@ -66,6 +67,7 @@ def get_available_tools():
         get_time_in_timezone,
         get_disk_usage,
         llm_fallback,
+        search_image,
     ]
 
 # Initialize Agent for Tools
@@ -132,7 +134,7 @@ def user_input_pdf(user_question):
 
 # Function to get available tools
 def get_available_tools():
-    from tools import llm_fallback, calculator, get_latest_news, get_movie_details, get_recipe, get_distance, get_stock_price, get_ip_address, get_disk_usage, get_time_in_timezone, get_weather
+    from tools import search_image, llm_fallback, calculator, get_latest_news, get_movie_details, get_recipe, get_distance, get_stock_price, get_ip_address, get_disk_usage, get_time_in_timezone, get_weather
     return {
         "Calculator": calculator,
         "Latest News": get_latest_news,
@@ -145,6 +147,7 @@ def get_available_tools():
         "Timezone Checker": get_time_in_timezone,
         "Disk Usage Info": get_disk_usage,
         "llm_fallback": llm_fallback,
+        "search_image": search_image,
 
     }
 
@@ -159,9 +162,9 @@ st.set_page_config(page_title="AI Application", layout="wide")
 st.sidebar.title("Options")
 
 # Sidebar: File Upload or Tool Selection
-file_type = st.sidebar.radio("Choose an option", ["Image","Video","PDF",  "Tool Interaction" ,"Translator"])
+file_type = st.sidebar.radio("Choose an option", ["Image Summarizer","Video Summarizer","PDF Summarizer",  "Tool Interaction" ,"Translator" , "Text_to_Image"])
 
-if file_type == "PDF":
+if file_type == "PDF Summarizer":
     st.title("PDF Summarizer") 
     st.write("upload your Pdf")
 
@@ -180,7 +183,7 @@ if file_type == "PDF":
                 response = user_input_pdf(user_query)
                 st.write("Answer:", response)
 
-elif file_type == "Video":
+elif file_type == "Video Summarizer":
     st.title("Video Summarizer")
     st.write("upload your video")
     video_file = st.sidebar.file_uploader("Upload a video file", type=['mp4', 'mov', 'avi'])
@@ -226,7 +229,7 @@ elif file_type == "Video":
                                 Path(video_path).unlink(missing_ok=True)
 
 
-elif file_type == "Image":
+elif file_type == "Image Summarizer":
         # Streamlit UI
         st.title("Image Description Generator")
 
@@ -369,6 +372,42 @@ elif file_type == "Translator":
                 st.error("Please enter some text for translation.")
 
 
+
+elif file_type == "Text_to_Image":
+       
+        # Function to generate an image based on the user's prompt
+        def generate_image(prompt):
+            API_KEY = "8773408815b3df1c64b47ad4c943faa116cc639a9c9ec72b68c89d9be66e3d4330f1589c6735ea04a3319824216bb98e"  # Replace with your actual API key
+
+            r = requests.post(
+                'https://clipdrop-api.co/text-to-image/v1',
+                files={'prompt': (None, prompt), 'text/plain': None},
+                headers={'x-api-key': API_KEY}
+            )
+
+            if r.ok:
+                # Return the image content
+                return r.content
+            else:
+                st.error(f"Error: {r.status_code} - {r.text}")
+                return None
+
+        # Streamlit interface
+        st.title("Text-to-Image Generator")
+        st.write("Enter your text prompt to generate an image. The app will create an image based on your description.")
+
+        # Text input for user to enter their prompt
+        user_prompt = st.text_area("Enter your prompt:")
+
+        # Generate image when the user clicks the button
+        if st.button('Generate Image') and user_prompt:
+            image_content = generate_image(user_prompt)
+            
+            if image_content:
+                # Display the generated image
+                st.image(image_content, caption="Generated Image", use_container_width=True)
+            else:
+                st.error("Failed to generate image. Please try again.")
 
 
 
