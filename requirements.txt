@@ -108,5 +108,6 @@ tzdata==2024.2
 uritemplate==4.1.1
 urllib3==2.3.0
 uv==0.5.24
+validators==0.34.0
 watchdog==6.0.0
 yarl==1.18.3
