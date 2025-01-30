@@ -9,6 +9,7 @@ from langchain_core.tools import tool
 from langchain.agents import initialize_agent, AgentType
 from dotenv import load_dotenv
 import os
+import validators
 import tempfile
 import time
 from pathlib import Path
@@ -251,9 +252,18 @@ elif file_type == "Image Summarizer":
             if uploaded_file is not None:
                 return Image.open(uploaded_file)
             elif url:
-                response = requests.get(url)
-                return Image.open(BytesIO(response.content))
+                if not validators.url(url):  # Validate URL
+                    st.error("Invalid URL. Please enter a valid image URL.")
+                    return None
+                try:
+                    response = requests.get(url)
+                    response.raise_for_status()  # Raise an error for bad responses (4xx, 5xx)
+                    return Image.open(BytesIO(response.content))
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Error fetching image: {e}")
+                    return None
             return None
+
 
         img = display_image()
         if img:
