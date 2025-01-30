@@ -24,7 +24,11 @@ import tempfile
 import time
 from pathlib import Path
 
-
+from langchain_groq import ChatGroq
+import requests
+import streamlit as st
+import http.client
+import json
 # Load environment variables
 load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "service.json"
@@ -162,7 +166,7 @@ st.set_page_config(page_title="AI Application", layout="wide")
 st.sidebar.title("Options")
 
 # Sidebar: File Upload or Tool Selection
-file_type = st.sidebar.radio("Choose an option", ["Image Summarizer","Video Summarizer","PDF Summarizer",  "Tool Interaction" ,"Translator" , "Text_to_Image" , "English Tutor"])
+file_type = st.sidebar.radio("Choose an option", ["Image Summarizer","Video Summarizer","PDF Summarizer",  "Tool Interaction" ,"Translator" , "Text_to_Image" , "English Tutor" ,"Article Writer"])
 
 if file_type == "PDF Summarizer":
     st.title("PDF Summarizer") 
@@ -475,3 +479,105 @@ elif file_type == "English Tutor":
         if user_submitted:
             response = llm.invoke(prompt)
             st.write(response.content)
+
+
+
+elif file_type == "Article Writer":
+        st.title("Article Writer")
+
+
+        # Initialize the ChatGroq model
+        model = ChatGroq(model="llama-3.3-70b-versatile", api_key="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")
+
+        # Search function to fetch data from Serper API
+        def Search(query):
+            conn = http.client.HTTPSConnection("google.serper.dev")
+            payload = json.dumps({
+                "q": query
+            })
+            headers = {
+                'X-API-KEY': '6f2bfdd501e9a4a2f99d8d81455b199912490100',
+                'Content-Type': 'application/json'
+            }
+            conn.request("POST", "/search", payload, headers)
+            res = conn.getresponse()
+            data = res.read()
+            return data
+
+        # Function to generate images based on the query
+        def search_image(query: str):
+            """Searches for images based on the query keyword."""
+            api_key = "YcKCA72Ez-w6bn0jC03opmr4UtdeXlRccoHpOs4WygU"
+            url = f"https://api.unsplash.com/search/photos?query={query}&client_id={api_key}"
+            response = requests.get(url)
+            data = response.json()
+            
+            if data['results']:
+                # Extract the image URLs from the response
+                image_urls = [image['urls']['small'] for image in data['results'][:5]]
+                return image_urls
+            else:
+                return []
+
+
+        # Streamlit UI for user input
+        user_input = st.text_input("Write any topic Name and I will Generate a Article on that Topic")
+
+        # Prepare the prompt for generating the article
+        prompt = f"""
+        You are to create a fully detailed, engaging, and informative article based on a user's provided topic, using guidelines and keywords. The article should be well-researched by retrieving information from the internet using an AI search (such as Serper AI) and should include an appropriate image to complement the content.
+
+        Topic: {user_input}
+
+        Core Features:
+        - Topic Input: The user provides a specific topic or keyword they want the article to focus on.
+        Example: "Benefits of AI in Healthcare" or "History of Space Exploration."
+        - Research: The chatbot will search the internet (via {Search(user_input)}) to gather reliable, up-to-date information on the provided topic.
+        - Article Creation: Based on the gathered data, the chatbot will generate a well-structured article with:
+        - Introduction: Provide a brief overview of the topic.
+        - Body: In-depth analysis and information covering:
+            - Historical context (if applicable).
+            - Current trends or developments related to the topic.
+            - Key facts, statistics, and evidence to support claims.
+            - Different perspectives or opinions related to the subject.
+        - Conclusion: Summarize the key points, and provide any future outlook or recommendations (if applicable).
+        - References: Include citations to the sources used in research (optional based on tool capability).
+        - Content Formatting: Use headings, subheadings, and bullet points for readability. Include examples and real-life scenarios where applicable. Maintain a professional yet engaging tone to keep the reader interested.
+        - SEO Optimization: Ensure the article includes relevant keywords related to the topic to make it SEO-friendly.
+        - Tone and Style: The tone should be informative and professional, yet accessible. The style should cater to the audience's needs, whether it’s for a casual blog or a technical journal.
+        """
+
+        # Generate the article and display the output
+        if user_input:
+            # Search for images first
+            image_urls = search_image(user_input)
+            
+            # Generate the article
+            response = model.invoke(prompt)
+            article_content = response.content  # Assuming this contains the article text
+            
+            # Create an array of placeholders for the images
+            article_with_images = article_content
+
+            # Insert images at specific locations in the article
+            if len(image_urls) > 0:
+                # For example, insert images after every 2 paragraphs
+                paragraphs = article_content.split("\n\n")
+                
+                new_article = []
+                image_index = 0
+                
+                for i, para in enumerate(paragraphs):
+                    new_article.append(para)
+                    
+                    # Insert an image after every second paragraph
+                    if i % 2 == 1 and image_index < len(image_urls):
+                        new_article.append(f"![Image related to {user_input}]({image_urls[image_index]})")
+                        image_index += 1
+
+                article_with_images = "\n\n".join(new_article)
+            
+            # Display the article with images
+            st.write("Generated Article with Images: \n")
+            st.markdown(article_with_images)
+
