@@ -12,6 +12,7 @@ charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6
 dataclasses-json==0.6.7
+distro==1.9.0
 duckduckgo_search==7.2.0
 faiss-cpu==1.9.0.post1
 filetype==1.2.0
@@ -27,6 +28,7 @@ google-auth-httplib2==0.2.0
 google-generativeai==0.8.3
 googleapis-common-protos==1.66.0
 greenlet==3.1.1
+groq==0.16.0
 grpcio==1.68.1
 grpcio-status==1.68.1
 h11==0.14.0
@@ -42,8 +44,9 @@ jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 langchain==0.3.14
 langchain-community==0.3.14
-langchain-core==0.3.29
+langchain-core==0.3.33
 langchain-google-genai==2.0.7
+langchain-groq==0.2.4
 langchain-text-splitters==0.3.4
 langsmith==0.2.7
 lxml==5.3.0
@@ -104,5 +107,6 @@ typing_extensions==4.12.2
 tzdata==2024.2
 uritemplate==4.1.1
 urllib3==2.3.0
+uv==0.5.24
 watchdog==6.0.0
 yarl==1.18.3
