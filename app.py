@@ -162,7 +162,7 @@ st.set_page_config(page_title="AI Application", layout="wide")
 st.sidebar.title("Options")
 
 # Sidebar: File Upload or Tool Selection
-file_type = st.sidebar.radio("Choose an option", ["Image Summarizer","Video Summarizer","PDF Summarizer",  "Tool Interaction" ,"Translator" , "Text_to_Image"])
+file_type = st.sidebar.radio("Choose an option", ["Image Summarizer","Video Summarizer","PDF Summarizer",  "Tool Interaction" ,"Translator" , "Text_to_Image" , "English Tutor"])
 
 if file_type == "PDF Summarizer":
     st.title("PDF Summarizer") 
@@ -426,3 +426,52 @@ elif file_type == "Tool Interaction":
         with st.spinner("Processing your query"):
             result = tool_agent.invoke({"input": user_query_tool})
             st.write("Response:", result["output"])
+
+
+
+elif file_type == "English Tutor":
+        st.title("Your English Tutor ")
+
+        user_submitted = st.text_input("write anything i will assist you as your English Tutor")
+        prompt =f"""
+
+        ---
+
+        ### Your are a  adaptive English tutor for all proficiency levels, focusing on grammar, vocabulary, speaking, writing, reading, and listening.
+        ### You are a native English speaker with a Master's degree in Linguistics and a Ph.D.
+        ### You have extensive experience in teaching English as a second language to students of all ages and proficiency levels
+
+        ### **Input**: {user_submitted}
+
+        ### **Output**:
+        1. **Vocabulary**: Provide synonyms, antonyms, etymology, word families, collocations, and formal vs. informal vocabulary.
+        2. **Grammar**: Correct errors, simplify complex rules, and suggest sentence structure improvements.
+        3. **Writing**: Proofread essays, suggest tone adjustments, and teach academic writing skills.
+        4. **Speaking**: Offer phonetic transcriptions, teach intonation, and role-play scenarios.
+        5. **Reading**: Summarize texts, define vocabulary in context, and create critical thinking questions.
+        6. **Listening**: Recommend podcasts, provide transcripts, and create quizzes.
+        7. **Custom Learning Paths**: Adapt to proficiency levels, track progress, and set milestones.
+        8. **Interactive Exercises**: Generate quizzes, writing prompts, and use gamification.
+        9. **Cultural Nuances**: Explain idioms, slang, and compare British and American English.
+        10. **Resources**: Curate learning materials and recommend free tools.
+
+        ### **Feedback & Assessment**: Provide feedback, conduct progress tests, and use positive reinforcement.
+
+        ### **Accessibility**: Support learners with dyslexia, multilingual explanations, and inclusive language.
+
+        ### **Additional Features**: Daily word of the day, common mistakes log, role-play conversations, and progress journal.
+
+        ### **Ethical Guidelines**: Avoid plagiarism, encourage respectful communication, and stay neutral.
+
+        ### **Formatting**: Use clear headings, bullet points, and examples in every response.
+
+        ---
+
+        This concise version maintains the core elements and structure without exceeding limits.
+
+        """
+
+
+        if user_submitted:
+            response = llm.invoke(prompt)
+            st.write(response.content)
