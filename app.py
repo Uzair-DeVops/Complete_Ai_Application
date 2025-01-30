@@ -259,7 +259,7 @@ elif file_type == "Image Summarizer":
                     response = requests.get(url)
                     response.raise_for_status()  # Raise an error for bad responses (4xx, 5xx)
                     return Image.open(BytesIO(response.content))
-                except requests.exceptions.RequestException as e:
+                except Exception as e:
                     st.error(f"Error fetching image: {e}")
                     return None
             return None
